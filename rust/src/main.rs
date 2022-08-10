@@ -40,15 +40,15 @@ fn main() {
             let ndln = nodes.len(); // store next index before borrowing nref
 
             // determine direction
-            let (next, nref) = match line.cmp(nodes[head].line.as_ref().unwrap()) {
-                Ordering::Greater => (nodes[head].rite, &mut nodes[head].rite),
-                _ => (nodes[head].left, &mut nodes[head].left),
+            let next = match line.cmp(nodes[head].line.as_ref().unwrap()) {
+                Ordering::Greater => &mut nodes[head].rite,
+                _ => &mut nodes[head].left,
             };
 
             // write out if unoccupied
             if next.is_none() {
-                // set the index, to relieve borrow checker of nref
-                *nref = Some(ndln);
+                // set the index, to relieve borrow checker of next
+                *next = Some(ndln);
                 nodes.push(Node::new());
                 nodes[ndln].prnt = Some(head);
                 nodes[ndln].line = Some(line.to_string());
