@@ -18,7 +18,7 @@ func main() {
 
 	root := &node{}
 	head := root
-	
+
 	// first node
 	scan := bufio.NewScanner(os.Stdin)
 	if scan.Scan() {
@@ -36,10 +36,10 @@ func main() {
 		// traverse tree
 		for {
 			rc := bytes.Compare(line, *head.line)
-			
-			var next    *node
+
+			var next *node
 			var next_p **node
-			
+
 			// determine direction
 			if rc <= 0 {
 				next = head.left
@@ -48,7 +48,7 @@ func main() {
 				next = head.rite
 				next_p = &head.rite
 			}
-			
+
 			// write out if unoccupied
 			if next == nil {
 				next = &node{
@@ -59,18 +59,18 @@ func main() {
 				head = root
 				break
 			}
-			
+
 			head = next
 		}
-		
+
 		head = root
 	}
-	
+
 	// get to first sorted
 	for head.left != nil {
 		head = head.left
 	}
-	
+
 	// climb and print
 	for root != nil {
 		// traverse left
@@ -78,7 +78,7 @@ func main() {
 			head = head.left
 			continue
 		}
-		
+
 		// print self
 		if head.line != nil {
 			fmt.Println(string(*head.line))
@@ -88,19 +88,19 @@ func main() {
 			head = head.rite
 			continue
 		}
-		
+
 		if head == root {
 			break
 		}
-		
+
 		prnt := head.prnt
 		if prnt.left == head {
 			prnt.left = nil
 		} else {
 			prnt.rite = nil
 		}
-		
+
 		head = nil
-		head = prnt	
-	}	
+		head = prnt
+	}
 }
