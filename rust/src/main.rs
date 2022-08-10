@@ -10,26 +10,19 @@ struct Node {
     line: Option<String>,
 }
 
-impl Node {
-    fn new() -> Node {
-        Node {
-            prnt: None,
-            left: None,
-            rite: None,
-            line: None,
-        }
-    }
-}
-
 fn main() {
     let mut nodes: Vec<Node> = Vec::new();
 
     // first node
-    nodes.push(Node::new());
 
     let stdin = io::stdin();
     let mut line_iter = stdin.lock().lines();
-    nodes[0].line = Some(line_iter.next().unwrap().unwrap());
+    nodes.push(Node {
+        prnt: None,
+        left: None,
+        rite: None,
+        line: Some(line_iter.next().unwrap().unwrap()),
+    });
 
     let mut head = 0;
 
@@ -49,9 +42,12 @@ fn main() {
             if next.is_none() {
                 // set the index, to relieve borrow checker of next
                 *next = Some(ndln);
-                nodes.push(Node::new());
-                nodes[ndln].prnt = Some(head);
-                nodes[ndln].line = Some(line.to_string());
+                nodes.push(Node {
+                    prnt: Some(head),
+                    left: None,
+                    rite: None,
+                    line: Some(line.to_string()),
+                });
 
                 head = 0;
                 break;
